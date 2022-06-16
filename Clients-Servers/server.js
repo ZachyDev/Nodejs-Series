@@ -1,13 +1,13 @@
-const http = require('https');
+// import https module
+const http = require('http');
 
-// create a server
 const server = http.createServer((req,res) => {
     console.log('Request made');
 })
 
-const port = 4000;
+// listen to a port
+let port = 3000;
 
-// listen to a port number
 server.listen(port, 'localhost', () => {
     console.log(`Listening for request on port ${ port }`);
 })
