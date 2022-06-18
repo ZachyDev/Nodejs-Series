@@ -1,4 +1,5 @@
 // import https module
+const fs = require('fs');
 const http = require('http');
 
 const server = http.createServer((req,res) => {
@@ -8,14 +9,37 @@ const server = http.createServer((req,res) => {
     // set header content type
     res.setHeader('Content-Type', 'text/html');
 
-    res.write('<head><link rel="stylesheet" href="style.css"></head>')
-    res.write('<p>Hello ZachyDev</p>');
-    res.write('<p>Hello again ZachyDev</p>');
-    res.end();
+    let path = '../views/';
+    switch(req.url) {
+        case '/':
+        path += 'index.html';
+        break;
+
+        case '/about':
+        path += 'about.html'
+        break;
+
+        default:
+        path += '404.html';
+        break;
+    }
+
+    // send html file
+    fs.readFile(path, (err,data) => {
+        if (err) {
+            console.log(err);
+            res.end();
+        }
+        else {
+            res.write(data);
+            res.end();
+        }
+    });
+    
 })
 
 // listen to a port
-let port = 3000;
+let port = 4000;
 
 server.listen(port, 'localhost', () => {
     console.log(`Listening for request on port ${ port }`);
